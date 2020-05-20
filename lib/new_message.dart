@@ -11,7 +11,8 @@ class MyScaffold2 extends StatefulWidget {
 }
 
 class _MyScaffoldState2 extends State<MyScaffold2> {
-  bool pressed = false;
+  String name, message;
+  Message newMessage;
 
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
@@ -50,6 +51,9 @@ class _MyScaffoldState2 extends State<MyScaffold2> {
                 }
                 return null;
               },
+              onSaved: (String value) {
+                this.name = value;
+              },
             ),
             TextFormField(
               decoration: const InputDecoration(
@@ -61,6 +65,9 @@ class _MyScaffoldState2 extends State<MyScaffold2> {
                 }
                 return null;
               },
+              onSaved: (String value) {
+                this.message = value;
+              },
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -69,7 +76,8 @@ class _MyScaffoldState2 extends State<MyScaffold2> {
                   // Validate will return true if the form is valid, or false if
                   // the form is invalid.
                   if (_formKey.currentState.validate()) {
-                    // Process data.
+                    newMessage = new Message(++id, name, message);
+                    print("Created new Message");
                   }
                 },
                 child: Text('Submit'),
@@ -79,12 +87,5 @@ class _MyScaffoldState2 extends State<MyScaffold2> {
         ),
       ),
     );
-  }
-}
-
-class MyForm extends Form {
-  @override
-  Widget build(BuildContext context) {
-    return null;
   }
 }

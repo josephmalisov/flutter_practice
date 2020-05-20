@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:practice/message.dart';
 
 part 'new_message.dart';
 
+int id = 0;
+var messages = new List<Message>(0);
 
 class MyScaffold extends StatefulWidget {
   _MyScaffoldState createState() => _MyScaffoldState();
