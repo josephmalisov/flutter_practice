@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 part of 'main.dart';
 
 class NewMessage extends StatelessWidget {
