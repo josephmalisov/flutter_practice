@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'message.dart';
 
 class MyAppBar extends StatelessWidget {
   MyAppBar({this.title});

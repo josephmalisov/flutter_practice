@@ -1,8 +1,10 @@
 class Message {
   int id;
-  var date = new DateTime.now();
+  var date;
   String poster;
   String message;
   
-  Message(this.id, this.date, this.poster, this.message);
+  Message(this.id, this.poster, this.message) {
+    date = new DateTime.now();
+  }
 }
