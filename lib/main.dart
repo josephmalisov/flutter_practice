@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'shared.dart';
 
+part 'new_message.dart';
+
 /**
  *  main 
  * */
