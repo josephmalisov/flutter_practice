@@ -5,8 +5,10 @@ part 'new_message.dart';
 
 ///id counter for creating message id's
 int id = 0;
+
 ///list of all messages
 List<Message> messages = <Message>[];
+
 ///Notifier tells messagesDisplay to update upon an update.
 MyNotifier messagesDisplay = MyNotifier(MessagesDisplay());
 
@@ -24,15 +26,14 @@ class _MyScaffoldState extends State<MyScaffold> {
         title: const Text('Sample Code'),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.menu),
-            tooltip: 'Navigation menu',
-            onPressed: null, // null disables the button
-          ),
-          // Expanded expands its child to fill the available space.
-          IconButton(
             icon: Icon(Icons.search),
             tooltip: 'Search',
             onPressed: null,
+          ),
+          IconButton(
+            icon: Icon(Icons.menu),
+            tooltip: 'Navigation menu',
+            onPressed: null, // null disables the button
           ),
         ],
       ),
@@ -53,7 +54,7 @@ class _MyScaffoldState extends State<MyScaffold> {
 class MyNotifier extends ValueNotifier<MessagesDisplay> {
   MyNotifier(MessagesDisplay messagesDisplay) : super(messagesDisplay);
 
-  void changeMyData (){
+  void changeMyData() {
     notifyListeners();
   }
 }
@@ -68,12 +69,12 @@ class MessagesDisplay extends StatelessWidget {
             itemCount: messages.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                height: 50,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(messages[index].poster),
+                    Text(messages[index].poster, textAlign: TextAlign.left, textScaleFactor: 1.5,),
                     Center(
-                      child: Text(messages[index].message),
+                      child: Text(messages[index].message, textAlign: TextAlign.center, textScaleFactor: 3,),
                     )
                   ],
                 ),
@@ -89,7 +90,7 @@ class MessagesDisplay extends StatelessWidget {
 void main() {
   messages.add(new Message(1, "a", "a"));
   runApp(MaterialApp(
-    title: 'My app', // used by the OS task switcher
+    title: 'Social Media App', // used by the OS task switcher
     home: MyScaffold(),
   ));
 }
