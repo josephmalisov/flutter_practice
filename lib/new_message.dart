@@ -76,10 +76,13 @@ class _MyScaffoldState2 extends State<MyScaffold2> {
                   // Validate will return true if the form is valid, or false if
                   // the form is invalid.
                   if (_formKey.currentState.validate()) {
+                    _formKey.currentState.save(); // Save our form now.
                     newMessage = new Message(++id, name, message);
-                    print("Created new Message");
+                    messages.add(newMessage);
+                    Navigator.pop(context);
                   }
                 },
+                color: Colors.blue,
                 child: Text('Submit'),
               ),
             ),

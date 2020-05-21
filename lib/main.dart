@@ -4,14 +4,13 @@ import 'package:practice/message.dart';
 part 'new_message.dart';
 
 int id = 0;
-var messages = new List<Message>(0);
+List<Message> messages = [];
 
 class MyScaffold extends StatefulWidget {
   _MyScaffoldState createState() => _MyScaffoldState();
 }
 
 class _MyScaffoldState extends State<MyScaffold> {
-  bool pressed = false;
 
   Widget build(BuildContext context) {
     // Material is a conceptual piece of paper on which the UI appears.
@@ -33,7 +32,7 @@ class _MyScaffoldState extends State<MyScaffold> {
           ),
         ],
       ),
-      body: Text(""),
+      body: MessagesDisplay(),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(
@@ -46,11 +45,32 @@ class _MyScaffoldState extends State<MyScaffold> {
   }
 }
 
+class MessagesDisplay extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        padding: const EdgeInsets.all(8),
+        itemCount: messages.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            height: 50,
+            child: Column(
+              children: <Widget>[
+                Text(messages[index].poster),
+                Center(
+                  child: Text(messages[index].message),
+                )
+              ],
+            ),
+          );
+        });
+  }
+}
 
 /**
  *  main 
  * */
 void main() {
+  messages.add(new Message(1, "a", "a"));
   runApp(MaterialApp(
     title: 'My app', // used by the OS task switcher
     home: MyScaffold(),
