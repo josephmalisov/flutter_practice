@@ -5,10 +5,8 @@ part 'new_message.dart';
 
 ///id counter for creating message id's
 int id = 0;
-
 ///list of all messages
 List<Message> messages = <Message>[];
-
 ///Notifier tells messagesDisplay to update upon an update.
 MyNotifier messagesDisplay = MyNotifier(MessagesDisplay());
 
@@ -88,7 +86,6 @@ class MessagesDisplay extends StatelessWidget {
 
 ///Main function to begin program
 void main() {
-  messages.add(new Message(1, "a", "a"));
   runApp(MaterialApp(
     title: 'Social Media App', // used by the OS task switcher
     home: MyScaffold(),
