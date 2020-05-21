@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:practice/message.dart';
 
 part 'new_message.dart';
+part 'search.dart';
 
 ///id counter for creating message id's
 int id = 0;
@@ -28,7 +29,7 @@ class _MyScaffoldState extends State<MyScaffold> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => NewMessage()),
+              MaterialPageRoute(builder: (context) => MyScaffoldNewMessage()),
             );
           },
           child: Icon(Icons.add)),
@@ -48,7 +49,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           icon: Icon(Icons.search),
           tooltip: 'Search',
-          onPressed: null,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyScaffoldSearch()),
+            );
+          },
         ),
         IconButton(
           icon: Icon(Icons.menu),
@@ -108,6 +114,12 @@ class MessagesDisplay extends StatelessWidget {
 
 ///Main function to begin program
 void main() {
+  List i = [1,2,3];
+  Iterable j;
+  j = i.where((element) => element + 1 == 2);
+  print("printing i :$i");
+  print("printing j :$j");
+
   runApp(MaterialApp(
     title: 'Social Media App', // used by the OS task switcher
     home: MyScaffold(),
