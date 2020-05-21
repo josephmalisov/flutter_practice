@@ -54,7 +54,8 @@ class QueriedMessages extends StatelessWidget {
     return ValueListenableBuilder(
         valueListenable: query,
         builder: (BuildContext context, query, Widget child) {
-          if (query == "") { //if no query, return nothing
+          if (query == "") {
+            //if no query, return nothing
             return Container();
           }
 
@@ -70,23 +71,28 @@ class QueriedMessages extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           color: Colors.green,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                queriedMessagesList.elementAt(index).poster,
-                                textAlign: TextAlign.left,
-                                textScaleFactor: 1.5,
-                              ),
-                              Center(
-                                child: Text(
-                                  queriedMessagesList.elementAt(index).message,
-                                  textAlign: TextAlign.center,
-                                  textScaleFactor: 3,
-                                ),
-                              )
-                            ],
-                          ),
+                          margin: EdgeInsets.all(5),
+                          child: Padding(
+                              padding: EdgeInsets.only(left: 5, right: 5),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    queriedMessagesList.elementAt(index).poster,
+                                    textAlign: TextAlign.left,
+                                    textScaleFactor: 1.5,
+                                  ),
+                                  Center(
+                                    child: Text(
+                                      queriedMessagesList
+                                          .elementAt(index)
+                                          .message,
+                                      textAlign: TextAlign.center,
+                                      textScaleFactor: 3,
+                                    ),
+                                  )
+                                ],
+                              )),
                         );
                       })));
         });
