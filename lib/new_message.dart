@@ -1,11 +1,14 @@
 part of 'main.dart';
 
+///Screen to input a new message
 class NewMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyScaffold2();
   }
 }
 
+///Scaffold for new message screen
+///Stateful because vars name, message, and newMessage are changed dynamically
 class MyScaffold2 extends StatefulWidget {
   _MyScaffoldState2 createState() => _MyScaffoldState2();
 }
@@ -52,7 +55,7 @@ class _MyScaffoldState2 extends State<MyScaffold2> {
                 return null;
               },
               onSaved: (String value) {
-                this.name = value;
+                this.name = value; //when form is saved, put value of textbox into name
               },
             ),
             TextFormField(
@@ -66,7 +69,7 @@ class _MyScaffoldState2 extends State<MyScaffold2> {
                 return null;
               },
               onSaved: (String value) {
-                this.message = value;
+                this.message = value; //when form is saved, put value of textbox into message
               },
             ),
             Padding(
@@ -76,10 +79,11 @@ class _MyScaffoldState2 extends State<MyScaffold2> {
                   // Validate will return true if the form is valid, or false if
                   // the form is invalid.
                   if (_formKey.currentState.validate()) {
-                    _formKey.currentState.save(); // Save our form now.
+                    _formKey.currentState.save(); // Saves data within form (allows instruction in onSave to execute)
                     newMessage = new Message(++id, name, message);
-                    messages.add(newMessage);
-                    Navigator.pop(context);
+                    messages.add(newMessage); //add new message to list
+                    messagesDisplay.changeMyData(); //tell the messagesDisplay to update
+                    Navigator.pop(context); //pop this screen off.
                   }
                 },
                 color: Colors.blue,
