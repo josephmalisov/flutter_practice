@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:practice/message.dart';
 
@@ -11,7 +12,7 @@ int id = 0;
 List<Message> messages = <Message>[];
 
 ///Notifier tells messagesDisplay to update upon an update.
-MyNotifier messagesDisplay = MyNotifier(MessagesDisplay());
+MyNotifier messagesDisplay = MyNotifier(_MyScaffoldState());
 
 ///Scaffold main home screen.
 class MyScaffold extends StatefulWidget {
@@ -24,7 +25,7 @@ class _MyScaffoldState extends State<MyScaffold> {
     return Scaffold(
       // Column is a vertical, linear layout.
       appBar: MyAppBar(),
-      body: MessagesDisplay(),
+      body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(
@@ -35,13 +36,64 @@ class _MyScaffoldState extends State<MyScaffold> {
           child: Icon(Icons.add)),
     );
   }
+
+  Widget _buildBody(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: Firestore.instance.collection('messages').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return LinearProgressIndicator();
+
+        return _buildList(context, snapshot.data.documents);
+      },
+    );
+  }
+
+  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+    return ListView(
+      padding: const EdgeInsets.only(top: 20.0),
+      children: snapshot.map((data) => _buildListItem(context, data)).toList(),
+    );
+  }
+
+  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+    final record = Record.fromSnapshot(data);
+
+    return Padding(
+        key: ValueKey(record.author),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: ListView.builder(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(8),
+            itemCount: messages.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      record.author,
+                      textAlign: TextAlign.left,
+                      textScaleFactor: 1.5,
+                    ),
+                    Center(
+                      child: Text(
+                        record.message,
+                        textAlign: TextAlign.center,
+                        textScaleFactor: 3,
+                      ),
+                    )
+                  ],
+                ),
+              );
+            }));
+  }
 }
 
 ///MyAppBar to run inside of MyScaffold
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => new Size.fromHeight(kToolbarHeight);
-  
+
   AppBar build(BuildContext context) {
     return AppBar(
       title: const Text('Sample Code'),
@@ -67,59 +119,37 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 ///Custom notifier class for MessagesDisplay
-class MyNotifier extends ValueNotifier<MessagesDisplay> {
-  MyNotifier(MessagesDisplay messagesDisplay) : super(messagesDisplay);
+class MyNotifier extends ValueNotifier<_MyScaffoldState> {
+  MyNotifier(_MyScaffoldState messagesDisplay) : super(messagesDisplay);
 
   void changeMyData() {
     notifyListeners();
   }
 }
 
-///Widget to display list of all messages
-class MessagesDisplay extends StatelessWidget {
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<MessagesDisplay>(
-      builder: (BuildContext context, messagesDisplay, Widget child) {
-        return ListView.builder(
-            padding: const EdgeInsets.all(8),
-            itemCount: messages.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      messages[index].poster,
-                      textAlign: TextAlign.left,
-                      textScaleFactor: 1.5,
-                    ),
-                    Center(
-                      child: Text(
-                        messages[index].message,
-                        textAlign: TextAlign.center,
-                        textScaleFactor: 3,
-                      ),
-                    )
-                  ],
-                ),
-              );
-            });
-      },
-      valueListenable: messagesDisplay,
-    );
-  }
+class Record {
+  final String author;
+  final String message;
+  // final DateTime date;
+  final DocumentReference reference;
+
+  Record.fromMap(Map<String, dynamic> map, {this.reference})
+      : assert(map['author'] != null),
+        assert(map['message'] != null),
+        assert(map['date'] != null),
+        author = map['author'],
+        message = map['message'];
+  // date = DateTime(map['date']);
+
+  Record.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data, reference: snapshot.reference);
+
+  @override
+  String toString() => "Record<$author:$message>";
 }
-
-
 
 ///Main function to begin program
 void main() {
-  List i = [1,2,3];
-  Iterable j;
-  j = i.where((element) => element + 1 == 2);
-  print("printing i :$i");
-  print("printing j :$j");
-
   runApp(MaterialApp(
     title: 'Social Media App', // used by the OS task switcher
     home: MyScaffold(),
