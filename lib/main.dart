@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:practice/message.dart';
@@ -13,6 +15,10 @@ List<Message> messages = <Message>[];
 
 ///Notifier tells messagesDisplay to update upon an update.
 MyNotifier messagesDisplay = MyNotifier(_MyScaffoldState());
+
+//Firestore variables
+final firestoreInstance = Firestore.instance;
+
 
 ///Scaffold main home screen.
 class MyScaffold extends StatefulWidget {

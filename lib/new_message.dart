@@ -71,9 +71,12 @@ class _MyScaffoldState2 extends State<MyScaffold2> {
                         _formKey.currentState
                             .save(); // Saves data within form (allows instruction in onSave to execute)
                         newMessage = new Message(++id, name, message);
-                        messages.add(newMessage); //add new message to list
-                        messagesDisplay
-                            .changeMyData(); //tell the messagesDisplay to update
+                        if (!addMessage(newMessage)) {
+                          log("Can't add Message!");
+                          return;
+                        }
+                        // messagesDisplay
+                        //     .changeMyData(); //tell the messagesDisplay to update
                         Navigator.pop(context); //pop this screen off.
                       }
                     },
@@ -85,5 +88,24 @@ class _MyScaffoldState2 extends State<MyScaffold2> {
             ),
           ),
         ));
+  }
+
+  bool addMessage(Message message) { //TODO: validate data in Firestore
+    if (!message.validate()) { //validate fields in message
+      return false;
+    }
+
+    firestoreInstance
+        .collection("messages")
+        .add({"author": message.author,
+        "date" : message.date,
+        "message": message.message
+        }).then((value) {
+      print(value.documentID);
+    }).catchError((error) {
+      log("Error writing document: $error");
+      return false;
+    });
+  return true;
   }
 }

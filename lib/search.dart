@@ -78,7 +78,7 @@ class QueriedMessages extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    queriedMessagesList.elementAt(index).poster,
+                                    queriedMessagesList.elementAt(index).author,
                                     textAlign: TextAlign.left,
                                     textScaleFactor: 1.5,
                                   ),
