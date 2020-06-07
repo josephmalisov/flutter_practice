@@ -7,7 +7,9 @@ class Message {
   int upvotes;
   int downvotes;
 
-  Message(this.id, this.author, this.message) {
+  Message.from(this.id, this.date, this.author, this.message, this.upvotes, this.downvotes);
+
+  Message.newMessage(this.id, this.author, this.message) {
     this.date = new DateTime.now();
     upvotes = 0;
     downvotes = 0;
@@ -16,11 +18,11 @@ class Message {
   }
 
   bool validate() {
-    return (date != null) && 
+    return ((date != null) && 
     (author != null) && 
     (message != null) &&
     (upvotes != null) &&
-    (downvotes != null);
+    (downvotes != null));
   }
 
   int score() {

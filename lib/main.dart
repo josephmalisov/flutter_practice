@@ -13,9 +13,6 @@ int id = 0;
 ///list of all messages
 List<Message> messages = <Message>[];
 
-///Notifier tells messagesDisplay to update upon an update.
-MyNotifier messagesDisplay = MyNotifier(_MyScaffoldState());
-
 //Firestore variables
 final firestoreInstance = Firestore.instance;
 
