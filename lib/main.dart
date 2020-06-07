@@ -58,7 +58,7 @@ class _MyScaffoldState extends State<MyScaffold> {
   }
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
-    final record = Record.fromSnapshot(data);
+    final record = Message.fromSnapshot(data);
     int score = record.upvotes - record.downvotes;
 
     return Padding(
@@ -139,33 +139,6 @@ class MyNotifier extends ValueNotifier<_MyScaffoldState> {
   }
 }
 
-class Record {
-  final String author;
-  final String message;
-  final Timestamp date;
-  final int upvotes;
-  final int downvotes;
-  final DocumentReference reference;
-
-  Record.fromMap(Map<String, dynamic> map, {this.reference})
-      : 
-      // assert(map['author'] != null),
-      //   assert(map['message'] != null),
-      //   assert(map['date'] != null),
-      //   assert(map['upvotes'] != null),
-      //   assert(map['downvotes'] != null),
-        author = map['author'],
-        message = map['message'],
-        date = map['date'],
-        upvotes = map['upvotes'],
-        downvotes = map['downvotes'];
-
-  Record.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, reference: snapshot.reference);
-
-  @override
-  String toString() => "Record<$author:$message>";
-}
 
 ///Main function to begin program
 void main() {

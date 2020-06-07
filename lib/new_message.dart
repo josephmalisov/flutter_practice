@@ -70,7 +70,8 @@ class _MyScaffoldState2 extends State<MyScaffold2> {
                       if (_formKey.currentState.validate()) {
                         _formKey.currentState
                             .save(); // Saves data within form (allows instruction in onSave to execute)
-                        newMessage = new Message.newMessage(++id, name, message);
+                        newMessage =
+                            new Message.newMessage(++id, name, message);
                         if (!addMessage(newMessage)) {
                           log("Can't add Message!");
                           return;
@@ -90,25 +91,25 @@ class _MyScaffoldState2 extends State<MyScaffold2> {
         ));
   }
 
-  bool addMessage(Message message) { //TODO: validate data in Firestore
-    if (!message.validate()) { //validate fields in message
+  bool addMessage(Message message) {
+    //TODO: validate data in Firestore
+    if (!message.validate()) {
+      //validate fields in message
       return false;
     }
 
-    firestoreInstance
-        .collection("messages")
-        .add({
-          "author": message.author,
-        "date" : message.date,
-        "message": message.message,
-        "upvotes": message.upvotes,
-        "downvotes": message.downvotes
-        }).then((value) {
+    firestoreInstance.collection("messages").add({
+      "author": message.author,
+      "date": message.date,
+      "message": message.message,
+      "upvotes": message.upvotes,
+      "downvotes": message.downvotes
+    }).then((value) {
       print(value.documentID);
     }).catchError((error) {
       log("Error writing document: $error");
       return false;
     });
-  return true;
+    return true;
   }
 }
