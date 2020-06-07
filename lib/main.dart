@@ -19,7 +19,6 @@ MyNotifier messagesDisplay = MyNotifier(_MyScaffoldState());
 //Firestore variables
 final firestoreInstance = Firestore.instance;
 
-
 ///Scaffold main home screen.
 class MyScaffold extends StatefulWidget {
   _MyScaffoldState createState() => _MyScaffoldState();
@@ -63,16 +62,20 @@ class _MyScaffoldState extends State<MyScaffold> {
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
+    int score = record.upvotes - record.downvotes;
 
     return Padding(
         key: ValueKey(record.author),
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
         child: ListView.builder(
             shrinkWrap: true,
             padding: const EdgeInsets.all(8),
             itemCount: messages.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                color: Colors.lightGreen,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -87,7 +90,13 @@ class _MyScaffoldState extends State<MyScaffold> {
                         textAlign: TextAlign.center,
                         textScaleFactor: 3,
                       ),
-                    )
+                    ),
+                    Center(
+                        child: Text(
+                      score.toString(),
+                      textAlign: TextAlign.center,
+                      textScaleFactor: 1.5,
+                    ))
                   ],
                 ),
               );
@@ -136,15 +145,22 @@ class MyNotifier extends ValueNotifier<_MyScaffoldState> {
 class Record {
   final String author;
   final String message;
-  // final DateTime date;
+  final DateTime date;
+  final int upvotes;
+  final int downvotes;
   final DocumentReference reference;
 
   Record.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['author'] != null),
         assert(map['message'] != null),
         assert(map['date'] != null),
+        assert(map['upvotes'] != null),
+        assert(map['downvotes'] != null),
         author = map['author'],
-        message = map['message'];
+        message = map['message'],
+        date = map['date'],
+        upvotes = map['upvotes'],
+        downvotes = map['downvotes'];
   // date = DateTime(map['date']);
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
