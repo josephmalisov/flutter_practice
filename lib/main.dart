@@ -59,7 +59,6 @@ class _MyScaffoldState extends State<MyScaffold> {
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Message.fromSnapshot(data);
-    int score = record.upvotes - record.downvotes;
 
     return Padding(
         key: ValueKey(record.author),
@@ -69,7 +68,13 @@ class _MyScaffoldState extends State<MyScaffold> {
             padding: const EdgeInsets.all(8),
             itemCount: messages.length,
             itemBuilder: (BuildContext context, int index) {
-              return Container(
+              return messageView(record);
+            }));
+  }
+
+  Widget messageView(Message record) {
+    int score = record.upvotes - record.downvotes;
+    return Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 color: Colors.lightGreen,
@@ -97,9 +102,10 @@ class _MyScaffoldState extends State<MyScaffold> {
                   ],
                 ),
               );
-            }));
   }
 }
+
+
 
 ///MyAppBar to run inside of MyScaffold
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
