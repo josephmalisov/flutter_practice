@@ -44,7 +44,7 @@ class _MyScaffoldState extends State<MyScaffold> {
 
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance.collection('messages').snapshots(),
+      stream: firestoreInstance.collection('messages').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
 
@@ -145,23 +145,23 @@ class MyNotifier extends ValueNotifier<_MyScaffoldState> {
 class Record {
   final String author;
   final String message;
-  final DateTime date;
+  final Timestamp date;
   final int upvotes;
   final int downvotes;
   final DocumentReference reference;
 
   Record.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['author'] != null),
-        assert(map['message'] != null),
-        assert(map['date'] != null),
-        assert(map['upvotes'] != null),
-        assert(map['downvotes'] != null),
+      : 
+      // assert(map['author'] != null),
+      //   assert(map['message'] != null),
+      //   assert(map['date'] != null),
+      //   assert(map['upvotes'] != null),
+      //   assert(map['downvotes'] != null),
         author = map['author'],
         message = map['message'],
         date = map['date'],
         upvotes = map['upvotes'],
         downvotes = map['downvotes'];
-  // date = DateTime(map['date']);
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
